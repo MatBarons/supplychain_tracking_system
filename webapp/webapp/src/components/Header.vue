@@ -43,7 +43,6 @@ import { createStockSocket, searchStocksSocket, walletConnectionSocket,getStocks
 import { walletDisconnectionSocket } from "@/api_calls/socket";
 import type { Stock } from "@/types/stock";
 
-//const emit = defineEmits(['search'])
 
 const emit = defineEmits<{
     (event: 'search_data', search: Stock[]): void

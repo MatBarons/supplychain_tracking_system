@@ -60,7 +60,7 @@ async function removeApprovedRequestedByStocks(stocks: Stock[],walletAddress:wal
         if (stock.status !== Status.requested_by) {
             return true;
         } else {
-            if (stock.request?.isApproved === true && stock.request.oldOwner === name) {
+            if (stock.request?.isApproved === true && stock.owner === name) {
                 return false;
             } else {
                 return true;
