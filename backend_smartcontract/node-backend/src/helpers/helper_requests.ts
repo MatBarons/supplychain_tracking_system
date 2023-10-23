@@ -1,5 +1,5 @@
 import { RequestModel } from "../database.js";
-import { StockRequest, companyName, partitaIVA, walletAddress } from "../types.js";
+import { Stock, StockRequest, companyName, partitaIVA, walletAddress } from "../types.js";
 import { getPIVA } from "./helper_users.js";
 
 
@@ -15,7 +15,6 @@ export async function getRequestsByRequester(requester: walletAddress): Promise<
     const requests: StockRequest[] = await RequestModel.find({ requester: userPIVA })
     return requests
 }
-
 
 export async function createRequest(uuid: string,oldOwner: companyName, requester: partitaIVA): Promise<void>{
     try{

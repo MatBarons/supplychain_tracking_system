@@ -9,7 +9,16 @@ const appID = 264415535;
 const contract = new sdk.ABIContract(appspec.contract)
 const addStockMethodSelector = sdk.getMethodByName(contract.methods,"add_stock")
 const changeOwnerMethodSelector = sdk.getMethodByName(contract.methods,"change_owner")
-const deleteStockMethodSelector = sdk.getMethodByName(contract.methods,"delete_stock") //ADD THE METHOD
+const deleteStockMethodSelector = sdk.getMethodByName(contract.methods,"delete_stock")
+
+
+export enum ContractMethods {
+    addStock = addStockMethodSelector,
+    changeOwner = changeOwnerMethodSelector,
+    deleteStock = deleteStockMethodSelector
+}
+
+
 
 const store = useDataStore()
 const connectPera = new pera.PeraWalletConnect();
@@ -104,3 +113,33 @@ export async function deleteStock(id: string){
     return result;
 }
 
+export async function callMethod(id: string, method: ContractMethods,ownerAddress? : string | undefined){
+    if (algodClient === undefined) {
+        algodClient = createAlgodClient();
+    }
+
+    try {
+        let boxName = new Uint8Array(Buffer.from(id));
+        const suggestedParams = await algodClient.getTransactionParams().do()
+        const atc = new sdk.AtomicTransactionComposer();
+        let args : Array<string> = [id]
+        if(ownerAddress !== undefined && method !== ContractMethods.deleteStock){
+            args.push(ownerAddress)
+        }
+        atc.addMethodCall({
+            suggestedParams,
+            sender: store.data.wallet,
+            signer: signer,
+            appID: appID,
+            method: method,
+            methodArgs: args,
+            boxes: [{ appIndex: appID, name: boxName }],
+            note: boxName
+        })
+        const result = await atc.execute(algodClient, 3)
+        console.log("confirmed round: " + result.confirmedRound)
+        return result
+    }catch(error){
+        console.log("Something went wrong with callMethod on " + method + "call")
+    }
+}
