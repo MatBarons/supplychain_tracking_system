@@ -18,6 +18,8 @@ coverage
 /cypress/screenshots/
 
 # Editor directories and files
+v2.0\goodschain-fe\.vscode\extensions.json
+v2.0\goodschain-fe\.vscode\settings.json
 .vscode/*
 !.vscode/extensions.json
 .idea
