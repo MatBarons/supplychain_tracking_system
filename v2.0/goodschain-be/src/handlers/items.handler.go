@@ -4,14 +4,18 @@ import (
 	"net/http"
 )
 
-func HandleItemsList(http.ResponseWriter, *http.Request) {
+func HandleItemsList(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func HandleItemDetails(http.ResponseWriter, *http.Request) {
+func HandleItemDetails(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func HandleCreateNewItem(http.ResponseWriter, *http.Request) {
+func HandleCreateNewItem(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func HandleItemHistory(w http.ResponseWriter, r *http.Request) {
 
 }
