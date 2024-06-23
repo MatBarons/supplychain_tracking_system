@@ -11,3 +11,7 @@ func HandleUserLogin(w http.ResponseWriter, r *http.Request) {
 func HandlerUserCreation(w http.ResponseWriter, r *http.Request) {
 
 }
+
+func HandleUserUpdateInfo(w http.ResponseWriter, r *http.Request) {
+
+}
