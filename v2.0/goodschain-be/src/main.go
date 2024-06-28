@@ -10,7 +10,7 @@ import (
 func main() {
 	databases.SetupDB()
 	router := http.NewServeMux()
-	requestsRouter := routes.CreateItemsRoute()
+	requestsRouter := routes.CreateRequestsRoute()
 	usersRouter := routes.CreateUsersRoute()
 	router.Handle("/api/", http.StripPrefix("/api", requestsRouter))
 	router.Handle("/api/", http.StripPrefix("/api", usersRouter))

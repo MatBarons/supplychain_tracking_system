@@ -7,7 +7,3 @@ import Header from 'src/core/Header.vue'
   <Header></Header>
   <RouterView />
 </template>
-
-<style scoped>
-
-</style>

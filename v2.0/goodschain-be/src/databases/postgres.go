@@ -12,12 +12,11 @@ import (
 var database *sql.DB
 
 func SetupDB() {
-	db := connectToDB()
-	database = db
+	connectToDB()
 	createMissingTables()
 }
 
-func connectToDB() *sql.DB {
+func connectToDB() {
 	user, password, dbName := getEnv()
 	connStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbName)
 	db, err := sql.Open("postgres", connStr)
@@ -29,7 +28,7 @@ func connectToDB() *sql.DB {
 	if err = db.Ping(); err != nil {
 		log.Fatal(err)
 	}
-	return db
+	database = db
 }
 
 func getEnv() (string, string, string) {
@@ -49,12 +48,14 @@ func getEnv() (string, string, string) {
 }
 
 func createMissingTables() {
-	query := "CREATE TABLE IF NOT EXISTS User (id VARCHAR(50),email VARCHAR(50),password VARCHAR(50),vatNumber VARCHAR(50),name VARCHAR(50));"
-	ExecUpdate(query)
+	userQuery := "CREATE TABLE IF NOT EXISTS User (id VARCHAR(50),email VARCHAR(50),password VARCHAR(50),vatNumber VARCHAR(50),name VARCHAR(50));"
+	requestsQuery := "CREATE TABLE IF NOT EXISTS Request (id VARCHAR(50),user VARCHAR(50));"
+	ExecUpdate(userQuery)
+	ExecUpdate(requestsQuery)
 }
 
-func ExecQuery(query string) *sql.Rows {
-	res, err := database.Query(query)
+func ExecQuery(query string, args ...any) *sql.Rows {
+	res, err := database.Query(query, args)
 	if err != nil {
 		log.Fatal(err)
 	}
