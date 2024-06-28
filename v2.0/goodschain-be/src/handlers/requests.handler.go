@@ -22,8 +22,9 @@ func HandleRequestsList(w http.ResponseWriter, r *http.Request) {
 	}
 	buf, err := json.Marshal(requests)
 	if err != nil {
-		w.Write(buf)
+		log.Fatal(err)
 	}
+	w.Write(buf)
 }
 
 func HandleCreateNewRequest(w http.ResponseWriter, r *http.Request) {
