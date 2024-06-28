@@ -1,1 +1,5 @@
 package blockchains
+
+func SetupBlockchain() {
+
+}
