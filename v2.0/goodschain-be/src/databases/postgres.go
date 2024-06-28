@@ -62,7 +62,7 @@ func ExecQuery(query string, args ...any) *sql.Rows {
 	return res
 }
 
-func ExecUpdate(query string) {
+func ExecUpdate(query string, args ...any) {
 	_, err := database.Exec(query)
 	if err != nil {
 		log.Fatal(err)
