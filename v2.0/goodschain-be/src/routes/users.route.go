@@ -8,7 +8,7 @@ import (
 
 func CreateUsersRoute() *http.ServeMux {
 	usersRouter := http.NewServeMux()
-	usersRouter.HandleFunc("POST users/login", handlers.HandleUserLogin)
+	usersRouter.HandleFunc("POST users/{email}", handlers.HandleUserLogin)
 	usersRouter.HandleFunc("POST users", handlers.HandlerUserCreation)
 	usersRouter.HandleFunc("PUT users/{email}", handlers.HandleUserUpdateInfo)
 	return usersRouter

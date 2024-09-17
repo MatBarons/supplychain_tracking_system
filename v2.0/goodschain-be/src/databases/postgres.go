@@ -48,8 +48,8 @@ func getEnv() (string, string, string) {
 }
 
 func createMissingTables() {
-	userQuery := "CREATE TABLE IF NOT EXISTS User (id VARCHAR(50),email VARCHAR(50),password VARCHAR(50),vatNumber VARCHAR(50),name VARCHAR(50));"
-	requestsQuery := "CREATE TABLE IF NOT EXISTS Request (id VARCHAR(50),user VARCHAR(50));"
+	userQuery := "CREATE TABLE IF NOT EXISTS Users (id VARCHAR(50),email VARCHAR(50),password VARCHAR(50),vatNumber VARCHAR(50),name VARCHAR(50));"
+	requestsQuery := "CREATE TABLE IF NOT EXISTS Requests (id VARCHAR(50),user VARCHAR(50));"
 	ExecUpdate(userQuery)
 	ExecUpdate(requestsQuery)
 }
