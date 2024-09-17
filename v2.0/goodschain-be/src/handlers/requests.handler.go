@@ -9,7 +9,7 @@ import (
 	"github.com/MatBarons/supplychain_tracking_system/models"
 )
 
-func HandleRequestsList(w http.ResponseWriter, r *http.Request) {
+func RequestsList(w http.ResponseWriter, r *http.Request) {
 	query := "SELECT * FROM Requests WHERE user=?;"
 	result := databases.ExecQuery(query, r.URL.Query().Get("id"))
 	var requests []models.Request
@@ -27,7 +27,7 @@ func HandleRequestsList(w http.ResponseWriter, r *http.Request) {
 	w.Write(buf)
 }
 
-func HandleCreateNewRequest(w http.ResponseWriter, r *http.Request) {
+func CreateNewRequest(w http.ResponseWriter, r *http.Request) {
 	query := "INSERT INTO Request (UserID, itemID, isApproved) VALUES (?, ?, FALSE);"
 	var request models.Request
 	r.Body = http.MaxBytesReader(w, r.Body, 1048576)
@@ -37,4 +37,9 @@ func HandleCreateNewRequest(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	databases.ExecUpdate(query, request.User, request.ItemID)
+}
+
+func DeleteRequest(w http.ResponseWriter, r *http.Request) {
+	query := "DELETE FROM Requests WHERE Id=?;"
+	databases.ExecUpdate(query, r.URL.Query().Get("id"))
 }

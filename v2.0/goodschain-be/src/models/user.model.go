@@ -7,5 +7,3 @@ type User struct {
 	VatNumber string
 	Password  string
 }
-
-//Try

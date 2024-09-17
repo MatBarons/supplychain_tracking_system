@@ -8,7 +8,8 @@ import (
 
 func CreateRequestsRoute() *http.ServeMux {
 	requestsRouter := http.NewServeMux()
-	requestsRouter.HandleFunc("POST requests", handlers.HandleCreateNewRequest)
-	requestsRouter.HandleFunc("POST requests/list", handlers.HandleRequestsList)
+	requestsRouter.HandleFunc("POST requests", handlers.CreateNewRequest)
+	requestsRouter.HandleFunc("POST requests/list", handlers.RequestsList)
+	requestsRouter.HandleFunc("DELETE requests/{id}", handlers.DeleteRequest)
 	return requestsRouter
 }
