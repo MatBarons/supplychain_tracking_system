@@ -15,28 +15,30 @@ func RequestsList(w http.ResponseWriter, r *http.Request) {
 	var requests []models.Request
 	for result.Next() {
 		var req models.Request
-		if err := result.Scan(&req.Id, &req.User, &req.ItemID, &req.IsConfirmed, &req.Borrower); err != nil {
+		if err := result.Scan(&req.Id, &req.UserID, &req.ItemID, &req.IsConfirmed, &req.Requester); err != nil {
 			requests = append(requests, req)
-
 		}
 	}
 	buf, err := json.Marshal(requests)
 	if err != nil {
 		log.Fatal(err)
+		return
 	}
 	w.Write(buf)
 }
 
 func CreateNewRequest(w http.ResponseWriter, r *http.Request) {
-	query := "INSERT INTO Request (UserID, itemID, isApproved) VALUES (?, ?, FALSE);"
+	query := "INSERT INTO Request (Borrower, itemID, isApproved) VALUES (?, ?, FALSE);"
 	var request models.Request
-	r.Body = http.MaxBytesReader(w, r.Body, 1048576)
-	dec := json.NewDecoder(r.Body)
-	err := dec.Decode(&request)
+	err := json.NewDecoder(r.Body).Decode(&request)
 	if err != nil {
 		log.Fatal(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	databases.ExecUpdate(query, request.User, request.ItemID)
+	if request.ItemID == "" || request.Requester == "" {
+		http.Error(w, "request data is missing", http.StatusNotFound)
+	}
+	databases.ExecUpdate(query, request.UserID, request.ItemID)
 }
 
 func DeleteRequest(w http.ResponseWriter, r *http.Request) {

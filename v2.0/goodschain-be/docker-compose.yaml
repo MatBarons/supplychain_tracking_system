@@ -1,0 +1,28 @@
+version: '3.9'
+services:
+  database:
+    container_name: db_container
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - 
+    ports:
+      - "27017:27017"
+
+  api:
+    container_name: api
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    depends_on:
+      - database
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+volumes:
+  database: {}

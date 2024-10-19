@@ -2,8 +2,8 @@ package models
 
 type Request struct {
 	Id          string
-	User        string
+	UserID      string
 	ItemID      string
 	IsConfirmed bool
-	Borrower    string
+	Requester   string
 }
